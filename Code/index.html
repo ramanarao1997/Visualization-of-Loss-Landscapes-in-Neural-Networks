@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset=utf-8>
+
+  <title> Visualization of Loss Landscapes in Neural Networks </title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./src/css/main.css" />
+
+  <script src="https://threejs.org/build/three.js"></script>
+  <script src="lib/js/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.6/d3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+  <script src='./src/js/index.js'></script>
+</head>
+
+<body>
+
+  <div id='background' class='blur'>
+    <div id='modelMenu'>
+      <div class='text'> <b> Model Menu</b> </div>
+
+      <div class='buttonMenu'>
+        <button id='b_resnet_loss' class='modelButton'> ResNet </button>
+        <button id='b_densenet_loss' class='modelButton'> DenseNet </button>
+        <button id='b_resnet_ns_loss' class='modelButton'> ResNet No Short </button>
+        <button id='b_vgg_loss' class='modelButton'> VGG </button>
+      </div>
+    </div>
+
+    <div id='options'>
+      <div class='normal'>
+        <button id='reset' class='optionsButton'> Reset Camera </button>
+
+        <label>WireFrame
+          <input type="checkbox" id='b_wireframe'>
+        </label>
+
+        <label> Auto Rotate
+          <input type="checkbox" id='b_auto_rotate'>
+        </label>
+
+        <button id="infoButton" class='optionsButton'> Show Info </button>
+      </div>
+
+      <div class='tab'>
+        <button id="crossSectionButton" class="tabButton"> Cross Section </button>
+
+        <div id='heatMapDiv'>
+          <input id="heatMapButton" class="tabButton" type="button" value="Heatmap" />
+
+          <div class="dropdown-content">
+            <li id='resnetDropdown'>ResNet</li>
+            <li id='densenetDropdown'>DenseNet</li>
+            <li id='vggDropdown'>VGG</li>
+            <li id='resnetNoShortDropdown'>ResNet No Short</li>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id='mainContainer'>
+      <div>
+        <div id='scene'> </div>
+
+        <div id='current'>
+          Current position:
+          <span id='tooltip'> </span>
+        </div>
+
+        <div id='sceneHelper'>
+
+          <div id='axesInfo'>
+            <div class='axis'>
+              <hr id='xAxis'>
+              X (X-Direction)
+            </div>
+            <div class='axis'>
+              <hr id='yAxis'>
+              Y (Y-Direction)
+            </div>
+            <div class='axis'>
+              <hr id='zAxis'>
+              Z (Loss)
+            </div>
+          </div>
+
+          <div id='controlsInfo'>
+            Use mouse to zoom and rotate.
+            Use arrow keys to move the scene.
+          </div>
+        </div>
+      </div>
+
+
+      <div class='legend'>
+        <div> Max Loss </div>
+        <svg id='lossLegendSVG'></svg>
+        <div> Min Loss</div>
+      </div>
+
+      <div id='crossSectionContainer' class="tabcontent">
+
+        <div id='crossSection'> </div>
+
+        <div>
+          <div id='sliderContainer'>
+            <div id='lossInfo'>
+              <p>Loss:</p>
+              <span id=currentLoss> 0.001 </span>
+            </div>
+            <input type="range" min="0.001" max="2.000" value="0" step='0.001' class="slider" id="myRange">
+
+            <div id='lossRange'>(0.001 to 2)</div>
+          </div>
+        </div>
+
+        <div id='modelLegend'>
+          <p id='modelInfo'> Color - Model </p>
+          <div id='colorIndex'>
+            <span id="resnetDot"> </span> ResNet
+            <span id="densenetDot"> </span> DenseNet
+            <span id="resnetNoShortDot"> </span> ResNet No Short
+            <span id="vggDot"> </span> VGG
+          </div>
+        </div>
+      </div>
+
+      <div id='heatmap'>
+        <div id='heatmap_densenet' class="tabcontent"> </div>
+        <div id='heatmap_resnet' class="tabcontent"> </div>
+        <div id='heatmap_resnet_no_short' class="tabcontent"> </div>
+        <div id='heatmap_vgg' class="tabcontent"> </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="modal">
+
+    <button id="close"> X </button>
+
+    <div id='projectTitle'> Visualization of Loss Landscapes in Neural Networks </div>
+
+    <div id='disclaimer'>
+      <b>Disclaimer</b>
+      <ul>
+        <li>
+          The Visualization focusses on four models:</br>
+          Resnet, Densenet, Renset no Short and VGG.
+        </li>
+        <li>The ratio of original loss values to the ones used for visualization
+          is 20:1 to ease model comparison.
+        </li>
+        <li> In the cross section and heatmap the X and Y axes indicate the
+          X, Y filter normalized directions respectively.</li>
+        <li>
+          For each model blue indicates the lowest loss value and red indicates the highest loss.
+        </li>
+      </ul>
+    </div>
+
+    <div class='how'>
+      <b>How to use? </b> </br>
+      <ul>
+        <li>
+          Select a model from the button menu to view its 3D loss surface.
+        </li>
+
+        <li> The Cross Section and HeatMap buttons can be used to view the encoding of interest.</li>
+
+        <li> Use the slider to view the X, Y filter normalized directions for a particular loss value.
+        </li>
+
+        <li> Select a model from the dropdown list to view its heatmap. </li>
+
+        <li> Hovering on the 3D surface, cross section or heatmap gives information
+          about the X, Y filter normalized directions and the corresponding loss values.
+        </li>
+
+        <li>Use mouse to zoom and rotate the axes.</li>
+        <li>Use arrow keys to move the origin.</li>
+        <li>WireFrame and auto rotate options can be enabled to get
+          the wireframe representation and to auto rotate the scene.</li>
+        <li>Reset button resets the camera angle. </li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+
+</html>
