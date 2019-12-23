@@ -6,8 +6,8 @@ It contains various encodings like scatterplot, heatmap and 3D loss surfaces.
 Collected dataset of 10,000 loss values corresponding to a parameter set for four neural networks.
 Preprocessed the data and converted it from hdf5 format to json.
 
-## How to use
-Download the entire folder and run the 'index.html' file.
+## How to run
+Clone the repository, unzip it and run the 'index.html' file.
 or
 Run it from here: https://rakula3.people.uic.edu/Final%20Project/Code/
 
