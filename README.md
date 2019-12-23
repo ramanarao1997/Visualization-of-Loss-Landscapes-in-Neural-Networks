@@ -9,11 +9,11 @@ Preprocessed the data and converted it from hdf5 format to json.
 ## How to use
 Download the entire folder and run the 'index.html' file.
 or
-Run it from [here] (https://rakula3.people.uic.edu/Final%20Project/Code/)
+Run it from here: https://rakula3.people.uic.edu/Final%20Project/Code/
 
 ## References
 
-[Visualizing the Loss Landscape of Neural Nets: Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, Tom Goldstein] (https://arxiv.org/abs/1712.09913)
+Visualizing the Loss Landscape of Neural Nets (Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, Tom Goldstein) https://arxiv.org/abs/1712.09913
 
 
 
