@@ -7,7 +7,7 @@ Collected dataset of 10,000 loss values corresponding to a parameter set for fou
 Preprocessed the data and converted it from hdf5 format to json.
 
 ## How to run
-Clone the repository, unzip it and run the 'index.html' file.
+Clone the repository, unzip it and run the 'index.html' file by starting a local server.
 or
 Run it from here: https://rakula3.people.uic.edu/Final%20Project/Code/
 
